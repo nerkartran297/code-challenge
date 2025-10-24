@@ -3,6 +3,8 @@ var sum_to_n_a = function(n) {
     for(let i = 0; i <= n; i++) {
         sum += i;
     }
+
+    return sum;
 };
 
 var sum_to_n_b = function(n) {
