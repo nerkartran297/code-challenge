@@ -173,16 +173,20 @@ export const CoinInput = ({
       )}
 
       {/* Conversion Rate - Only for "You receive" */}
-      <div className="flex items-center -mt-2 min-h-[20px]">
-        {readOnly && conversionRate && receiveCoin && coin && (
-          <span
-            className={`text-xs ${isDark ? "text-gray-400" : "text-gray-500"}`}
-          >
-            1 {coin.symbol.toUpperCase()} = {conversionRate}{" "}
-            {receiveCoin.symbol.toUpperCase()}
-          </span>
-        )}
-      </div>
+      {label === "You receive" && (
+        <div className="flex items-center -mt-2 min-h-[20px]">
+          {readOnly && conversionRate && receiveCoin && coin && (
+            <span
+              className={`text-xs ${
+                isDark ? "text-gray-400" : "text-gray-500"
+              }`}
+            >
+              1 {coin.symbol.toUpperCase()} = {conversionRate}{" "}
+              {receiveCoin.symbol.toUpperCase()}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 };
