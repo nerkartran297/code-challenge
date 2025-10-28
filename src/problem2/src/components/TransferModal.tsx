@@ -233,9 +233,13 @@ export const TransferModal = ({
                     autoFocus={index === 0}
                     className={`w-12 h-14 text-center text-2xl font-bold rounded-lg border-2 transition-all ${
                       showError
-                        ? "border-red-500 bg-red-500/10"
+                        ? isDark
+                          ? "border-red-500 bg-red-500/10 text-white"
+                          : "border-red-500 bg-red-500/10 text-gray-900"
                         : success
-                        ? "border-[#50DA63] bg-[#50DA63]/10"
+                        ? isDark
+                          ? "border-[#50DA63] bg-[#50DA63]/10 text-white"
+                          : "border-[#50DA63] bg-[#50DA63]/10 text-gray-900"
                         : index === activeIndex
                         ? "border-[#50DA63]"
                         : isDark
