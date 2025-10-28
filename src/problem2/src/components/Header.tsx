@@ -1,0 +1,73 @@
+import { LockButton } from "./LockButton";
+
+interface HeaderProps {
+  onSettingsClick: () => void;
+  isLocked: boolean;
+  onToggleLock: () => void;
+  isWarning?: boolean;
+  theme?: "dark" | "light";
+}
+
+/**
+ * Header component - Hiển thị title và action buttons
+ */
+export const Header = ({
+  onSettingsClick,
+  isLocked,
+  onToggleLock,
+  isWarning = false,
+  theme = "dark",
+}: HeaderProps) => {
+  const isDark = theme === "dark";
+
+  return (
+    <div className="flex flex-row justify-between items-center w-full mb-4 sm:mb-5">
+      <h1
+        className={`font-bold text-xl sm:text-2xl ${
+          isDark ? "text-gray-100" : "text-gray-900"
+        }`}
+      >
+        Fancy Swap
+      </h1>
+      <div className="flex flex-row items-center gap-2 sm:gap-4">
+        <LockButton
+          isLocked={isLocked}
+          onToggle={onToggleLock}
+          isWarning={isWarning}
+          theme={theme}
+        />
+        <button
+          onClick={onSettingsClick}
+          className={`p-2 rounded-full hover:scale-110 transition-all cursor-pointer ${
+            isDark
+              ? "bg-[#252a42] hover:bg-[#2e3450]"
+              : "bg-gray-200 hover:bg-gray-300"
+          }`}
+        >
+          <img
+            src="/setting.svg"
+            alt="setting"
+            width={18}
+            height={18}
+            className={`${isDark ? "invert" : ""} opacity-70 sm:w-5 sm:h-5`}
+          />
+        </button>
+        {/* <button
+          className={`p-2 rounded-full hover:scale-110 transition-all cursor-pointer ${
+            isDark
+              ? "bg-[#252a42] hover:bg-[#2e3450]"
+              : "bg-gray-200 hover:bg-gray-300"
+          }`}
+        >
+          <img
+            src="/more.svg"
+            alt="more"
+            width={18}
+            height={18}
+            className={`${isDark ? "invert" : ""} opacity-70 sm:w-5 sm:h-5`}
+          />
+        </button> */}
+      </div>
+    </div>
+  );
+};
