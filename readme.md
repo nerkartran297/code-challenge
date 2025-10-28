@@ -196,14 +196,13 @@ src/
 ├── problem1/           # Sum to n solutions
 ├── problem2/           # Coin swap interface
 │   ├── src/
-│   │   ├── api/        # API services
-│   │   ├── components/ # React components
-│   │   ├── hooks/      # Custom hooks
-│   │   └── utils/      # Utility functions
-│   └── README.md       # Detailed documentation
+│       ├── api/        # API services
+│       ├── components/ # React components
+│       ├── hooks/      # Custom hooks
+│       └── utils/      # Utility functions
+│   
 └── problem3/           # Wallet balance optimization
     ├── OptimizedPage.tsx
-    └── README.md       # Optimization notes
 
 ```
 
