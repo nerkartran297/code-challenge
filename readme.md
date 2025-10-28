@@ -205,8 +205,5 @@ src/
     ├── OptimizedPage.tsx
 
 ```
-
 ---
-
-**Author:** [Your Name]  
-**Date:** 2024
+Khanh Tran - 29.10.2025 - Code Challenge
