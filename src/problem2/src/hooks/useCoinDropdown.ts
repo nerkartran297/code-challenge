@@ -7,7 +7,12 @@ import type { Coin } from "../api/coinService";
  * - Filter coins theo search term
  * - Auto close khi click outside
  */
-export const useCoinDropdown = (coins: Coin[], allCoins: Coin[] = []) => {
+export const useCoinDropdown = (
+  coins: Coin[],
+  allCoins: Coin[] = [],
+  payCoin?: Coin,
+  receiveCoin?: Coin
+) => {
   const [showList, setShowList] = useState<"pay" | "receive" | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [animatePay, setAnimatePay] = useState<boolean>(false);
@@ -34,11 +39,23 @@ export const useCoinDropdown = (coins: Coin[], allCoins: Coin[] = []) => {
   }, []);
 
   // Filter coins dựa trên search term
-  const filteredCoins = coinsToUse.filter(
-    (c) =>
-      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.symbol.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCoins = coinsToUse
+    .filter(
+      (c) =>
+        c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        c.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      // Đưa coin đang được select lên đầu
+      const currentCoin = showList === "pay" ? payCoin : receiveCoin;
+      
+      if (currentCoin) {
+        if (a.symbol === currentCoin.symbol) return -1;
+        if (b.symbol === currentCoin.symbol) return 1;
+      }
+      
+      return 0;
+    });
 
   // Trigger animation cho pay/receive section
   const triggerAnimation = (type: "pay" | "receive") => {

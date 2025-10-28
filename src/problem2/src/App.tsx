@@ -54,7 +54,12 @@ function App() {
     dropdownRef,
     filteredCoins,
     closeDropdown,
-  } = useCoinDropdown(coins, allCoins);
+  } = useCoinDropdown(
+    coins,
+    allCoins,
+    payCoin || undefined,
+    receiveCoin || undefined
+  );
 
   // Quản lý settings (bao gồm lock state và theme)
   const {
