@@ -40,7 +40,6 @@ export const CoinInput = ({
   const isDark = theme === "dark";
 
   // Coin có thể null khi đang swap
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
@@ -70,7 +69,7 @@ export const CoinInput = ({
     // Chỉ check giới hạn phần nguyên (10 chữ số)
     if (integerPart.length > 10) {
       if (onValidationError) {
-        onValidationError("Max 10 digits for integer");
+        onValidationError("Integer part - max 10 digits");
       }
       // Vẫn validate để truncate, nhưng đã show toast rồi
     }
@@ -102,9 +101,10 @@ export const CoinInput = ({
     if (length <= 10) return undefined;
 
     // Scale down font size khi text dài
-    // Công thức: fontSize = baseFontSize * (min(1, maxScale))
-    // maxScale giảm dần khi length tăng
-    const maxScale = Math.max(0.5, 1 - (length - 20) * 0.03); // Giảm 3% mỗi ký tự sau 10
+    // Giảm 3% mỗi ký tự sau 10
+    // length = 11 → scale = 0.97, length = 20 → scale = 0.7, length = 30 → scale = 0.4
+    const excessLength = length - 15; // Số ký tự vượt quá 10
+    const maxScale = Math.max(0.5, 1 - excessLength * 0.03);
     const fontSize = Math.max(14, baseFontSize * maxScale); // Min 14px để vẫn đọc được
 
     return `${fontSize}px`;
@@ -158,13 +158,14 @@ export const CoinInput = ({
       <div className="flex items-center justify-between gap-2">
         {readOnly ? (
           <div
-            className={`font-semibold flex-1 min-w-0 overflow-hidden ${
+            className={`font-semibold flex-1 min-w-0 overflow-x-auto overflow-y-hidden ${
               dynamicFontSize ? "" : "text-2xl sm:text-3xl"
             } ${isDark ? "text-white" : "text-gray-900"}`}
             style={{
               ...(dynamicFontSize ? { fontSize: dynamicFontSize } : {}),
               whiteSpace: "nowrap",
               transition: "font-size 0.2s ease",
+              WebkitOverflowScrolling: "touch", // Smooth scroll on iOS
             }}
             title={displayText} // Show full value on hover
           >
@@ -195,7 +196,7 @@ export const CoinInput = ({
               onClick={onCoinClick}
               className={`flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 h-10 sm:h-11 rounded-full hover:scale-105 transition-all cursor-pointer ${
                 isTextLong
-                  ? "min-w-[50px] sm:min-w-[56px]"
+                  ? "min-w-[50px] sm:min-w-[56px] justify-center" // Center icon when text is hidden
                   : "min-w-[80px] sm:min-w-[90px]"
               } ${
                 isDark

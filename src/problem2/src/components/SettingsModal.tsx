@@ -28,9 +28,9 @@ export const SettingsModal = ({
   const decimalOptions = [2, 4, 6, 8, 10];
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
       <div
-        className={`border rounded-xl p-6 shadow-2xl w-full max-w-[400px] transition-colors ${
+        className={`border rounded-xl p-4 sm:p-6 shadow-2xl w-full max-w-[400px] transition-colors ${
           isDark ? "bg-[#1C1E2B] border-gray-700" : "bg-white border-gray-200"
         }`}
       >
@@ -77,12 +77,12 @@ export const SettingsModal = ({
           >
             Decimal Places
           </label>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2 flex-nowrap overflow-x-auto">
             {decimalOptions.map((places) => (
               <button
                 key={places}
                 onClick={() => onDecimalPlacesChange(places)}
-                className={`px-4 py-2 rounded-lg font-semibold transition-all cursor-pointer ${
+                className={`px-3 sm:px-4 py-2 rounded-lg font-semibold transition-all cursor-pointer shrink-0 text-sm sm:text-base ${
                   decimalPlaces === places
                     ? "bg-[#50DA63] text-gray-900"
                     : isDark
@@ -163,8 +163,8 @@ export const SettingsModal = ({
 
         {/* USD Comparison Toggle */}
         <div className="mt-6">
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start sm:items-center justify-between gap-3">
+            <div className="flex-1 min-w-0">
               <label
                 className={`block font-medium text-sm mb-1 ${
                   isDark ? "text-gray-300" : "text-gray-700"
@@ -182,7 +182,7 @@ export const SettingsModal = ({
             </div>
             <button
               onClick={() => onToggleUSDComparison(!showUSDComparison)}
-              className={`relative w-14 h-7 rounded-full transition-colors ${
+              className={`relative w-12 h-6 sm:w-14 sm:h-7 rounded-full transition-colors shrink-0 ${
                 showUSDComparison
                   ? "bg-[#50DA63]"
                   : isDark
@@ -191,8 +191,8 @@ export const SettingsModal = ({
               }`}
             >
               <span
-                className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full transition-transform ${
-                  showUSDComparison ? "translate-x-7" : ""
+                className={`absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-5 h-5 bg-white rounded-full transition-transform ${
+                  showUSDComparison ? "translate-x-5 sm:translate-x-7" : ""
                 }`}
               />
             </button>

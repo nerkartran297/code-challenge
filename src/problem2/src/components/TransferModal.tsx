@@ -157,9 +157,9 @@ export const TransferModal = ({
           animation: shake 0.5s ease-in-out;
         }
       `}</style>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4 animate-fadeIn">
         <div
-          className={`border rounded-xl p-6 shadow-2xl w-full max-w-[420px] transition-all ${
+          className={`border rounded-xl p-4 sm:p-6 shadow-2xl w-full max-w-[420px] transition-all ${
             showError ? "shake" : ""
           } ${
             isDark ? "bg-[#1C1E2B] border-gray-700" : "bg-white border-gray-200"
@@ -182,7 +182,7 @@ export const TransferModal = ({
                 </svg>
               </div>
               <h2
-                className={`font-bold text-xl ${
+                className={`font-bold text-lg sm:text-xl ${
                   isDark ? "text-white" : "text-gray-900"
                 }`}
               >
@@ -213,7 +213,7 @@ export const TransferModal = ({
                 Enter OTP (6 digits)
               </label>
               <div
-                className="flex gap-2 justify-center relative"
+                className="flex gap-1.5 sm:gap-2 justify-center relative"
                 onPaste={handlePaste}
               >
                 {/* 6 visible inputs */}
@@ -231,7 +231,7 @@ export const TransferModal = ({
                     onFocus={() => setActiveIndex(index)}
                     disabled={isSubmitting}
                     autoFocus={index === 0}
-                    className={`w-12 h-14 text-center text-2xl font-bold rounded-lg border-2 transition-all ${
+                    className={`w-10 h-12 sm:w-12 sm:h-14 text-center text-xl sm:text-2xl font-bold rounded-lg border-2 transition-all ${
                       showError
                         ? isDark
                           ? "border-red-500 bg-red-500/10 text-white"
@@ -274,7 +274,7 @@ export const TransferModal = ({
               disabled={
                 isSubmitting || success || otp.slice(0, 6).join("").length !== 6
               }
-              className={`w-full py-3 rounded-lg font-bold text-lg transition-all flex items-center justify-center gap-2 ${
+              className={`w-full py-3 rounded-lg font-bold text-sm sm:text-lg transition-all flex items-center justify-center gap-2 ${
                 success
                   ? "bg-[#50DA63] text-white"
                   : isSubmitting || otp.slice(0, 6).join("").length !== 6

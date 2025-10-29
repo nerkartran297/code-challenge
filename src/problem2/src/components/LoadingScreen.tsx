@@ -10,7 +10,7 @@ export const LoadingScreen = ({ theme = "dark" }: LoadingScreenProps) => {
 
   return (
     <section
-      className={`flex flex-col items-center justify-center p-3 sm:p-5 rounded-xl border w-full max-w-[320px] xs:max-w-sm sm:max-w-md mx-auto relative overflow-hidden transition-all duration-500 ${
+      className={`flex flex-col items-center justify-center p-3 sm:p-5 rounded-xl border w-full max-w-[320px] xs:max-w-sm sm:max-w-md mx-2 sm:mx-auto relative overflow-hidden transition-all duration-500 ${
         isDark
           ? "bg-[#151723] border-gray-400/10"
           : "bg-gray-50 border-gray-200 shadow-lg"

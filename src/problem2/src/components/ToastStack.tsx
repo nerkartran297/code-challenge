@@ -108,7 +108,7 @@ export const ToastStack = () => {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed bottom-0 right-0 z-50 flex flex-col gap-2 p-6 pointer-events-none">
+    <div className="fixed bottom-0 right-0 z-50 flex flex-col gap-2 p-3 sm:p-6 pointer-events-none">
       {toasts.map((toast) => {
         const bgColor =
           toast.type === "error"
@@ -122,7 +122,7 @@ export const ToastStack = () => {
         return (
           <div
             key={toast.id}
-            className={`${bgColor} backdrop-blur-md text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 w-[320px] h-[60px] border border-white/10 hover:border-white/20 transition-all duration-300 pointer-events-auto ${
+            className={`${bgColor} backdrop-blur-md text-white px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl shadow-2xl flex items-center gap-2 sm:gap-3 w-[calc(100vw-24px)] max-w-[320px] sm:w-[320px] min-h-[56px] sm:h-[60px] border border-white/10 hover:border-white/20 transition-all duration-300 pointer-events-auto ${
               isExiting
                 ? "animate-fadeOut"
                 : "animate-[slideInRight_0.4s_ease-out]"
@@ -150,7 +150,7 @@ export const ToastStack = () => {
             )}
 
             {/* Message */}
-            <span className="flex-1 font-medium text-sm leading-snug truncate">
+            <span className="flex-1 font-medium text-xs sm:text-sm leading-snug truncate">
               {toast.message.length > 48
                 ? `${toast.message.slice(0, 45)}...`
                 : toast.message}

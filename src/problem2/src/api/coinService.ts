@@ -17,8 +17,6 @@ export interface Coin {
 /**
  * Get token icon URL from GitHub
  * Handles special casing for staked tokens (stETH, stATOM, etc.)
- * @param currency - The currency name from API (e.g., "RATOM", "STATOM")
- * @returns URL to the token icon
  */
 const getTokenIconUrl = (currency: string): string => {
   // Handle special cases where GitHub repo uses different casing
@@ -62,6 +60,7 @@ export const fetchCoins = async (): Promise<Coin[]> => {
   const priceMap = new Map<string, PriceData>();
   prices.forEach((price) => {
     const existing = priceMap.get(price.currency);
+    
     // Keep the latest price (newer date) for each currency
     if (!existing || new Date(price.date).getTime() > new Date(existing.date).getTime()) {
       priceMap.set(price.currency, price);
