@@ -61,51 +61,24 @@ function App() {
     receiveCoin || undefined
   );
 
-  // Quản lý settings (bao gồm lock state và theme)
+  // Quản lý settings
   const {
     settings,
     setDecimalPlaces,
-    toggleLock,
     setTheme,
     setShowUSDComparison,
     showModal,
     setShowModal,
   } = useSettings();
 
-  // Validate balance để check overdraft (cho unlock mode)
+  // Validate balance
   const { isTransferDisabled, isZeroOrNegative } = useBalanceValidation({
     payCoin,
     amount,
-    isLocked: settings.isLocked,
   });
-
-  // State để track xem user có cố gắng nhập vượt balance không (cho animation)
-  const [attemptedExceed, setAttemptedExceed] = useState(false);
 
   // State để control TransferModal
   const [showTransferModal, setShowTransferModal] = useState(false);
-
-  // Handler để add toast - không cần state nữa
-
-  // Check warning cho lock button (màu đỏ khi locked và nhập quá balance)
-  const numAmount = parseFloat(amount) || 0;
-  const balance = payCoin?.balance || 0;
-  const actuallyExceeds = numAmount > balance;
-
-  // Cap amount khi locked và vượt balance
-  useEffect(() => {
-    if (settings.isLocked && actuallyExceeds) {
-      setAmount(balance.toString());
-      // Track warning
-      setAttemptedExceed(true);
-    } else if (!settings.isLocked) {
-      // Reset warning khi unlock
-      setAttemptedExceed(false);
-    }
-  }, [settings.isLocked, actuallyExceeds, balance, setAmount]);
-
-  // Warning state: true nếu user đã cố nhập vượt
-  const isLockWarning = settings.isLocked && attemptedExceed;
 
   // Update body background based on theme
   useEffect(() => {
@@ -140,8 +113,8 @@ function App() {
       return;
     }
 
-    if (isTransferDisabled && !settings.isLocked) {
-      // Nếu unlocked và vượt balance -> show toast error
+    if (isTransferDisabled) {
+      // Nếu vượt balance -> show toast error
       showToast("Insufficient Balance", "error");
       return;
     }
@@ -183,9 +156,6 @@ function App() {
         {/* Header */}
         <Header
           onSettingsClick={() => setShowModal(true)}
-          isLocked={settings.isLocked}
-          onToggleLock={toggleLock}
-          isWarning={isLockWarning}
           theme={settings.theme}
         />
 
@@ -198,6 +168,7 @@ function App() {
           showUSDComparison={settings.showUSDComparison}
           animate={false}
           onAmountChange={setAmount}
+          onValidationError={(message) => showToast(message, "info")}
           theme={settings.theme}
           onCoinClick={() => setShowList(showList === "pay" ? null : "pay")}
         />
@@ -210,10 +181,10 @@ function App() {
           label="You receive"
           amount=""
           coin={isSwapping ? null : receiveCoin}
-          receivedAmount={parseFloat(formattedReceivedAmount)}
+          receivedAmount={formattedReceivedAmount}
           conversionRate={conversionRate}
           receiveCoin={payCoin}
-          showBalance={false}
+          showBalance={true}
           readOnly={true}
           animate={false}
           theme={settings.theme}

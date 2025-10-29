@@ -5,7 +5,7 @@ interface CoinInputProps {
   label: string;
   amount?: string;
   coin: Coin | null;
-  receivedAmount?: number;
+  receivedAmount?: number | string; // Có thể là number (từ hook) hoặc string (đã format)
   showBalance?: boolean;
   showUSDComparison?: boolean;
   conversionRate?: string;
@@ -15,6 +15,7 @@ interface CoinInputProps {
   theme?: "dark" | "light";
   onAmountChange?: (value: string) => void;
   onCoinClick: () => void;
+  onValidationError?: (message: string) => void; // Callback khi validation error
 }
 
 /**
@@ -34,24 +35,82 @@ export const CoinInput = ({
   theme = "dark",
   onAmountChange,
   onCoinClick,
+  onValidationError,
 }: CoinInputProps) => {
   const isDark = theme === "dark";
 
   // Coin có thể null khi đang swap
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const validated = validateAmount(e.target.value);
+    const value = e.target.value;
+
+    // Cho phép empty và chỉ có dấu chấm
+    if (value === "" || value === ".") {
+      if (onAmountChange) {
+        onAmountChange(value);
+      }
+      return;
+    }
+
+    // Check format hợp lệ trước
+    let processedValue = value;
+    if (value.length > 1 && value.startsWith("0") && value[1] !== ".") {
+      processedValue = value.replace(/^0+/, "");
+    }
+
+    // Check format
+    if (!/^\d*\.?\d*$/.test(processedValue)) {
+      return; // Invalid format
+    }
+
+    // Check giới hạn TRƯỚC KHI validate
+    const parts = processedValue.split(".");
+    const integerPart = parts[0] || "";
+
+    // Chỉ check giới hạn phần nguyên (10 chữ số)
+    if (integerPart.length > 10) {
+      if (onValidationError) {
+        onValidationError("Max 10 digits for integer");
+      }
+      // Vẫn validate để truncate, nhưng đã show toast rồi
+    }
+
+    // Validate và update (có thể sẽ truncate)
+    const validated = validateAmount(value);
     if (validated !== null && onAmountChange) {
       onAmountChange(validated);
     }
   };
 
   // Check xem text có quá dài không (để ẩn text ở coin button)
+  // receivedAmount có thể là number hoặc string (đã format đầy đủ)
   const displayText = readOnly
-    ? receivedAmount?.toString() || "0.00"
+    ? (typeof receivedAmount === "string"
+        ? receivedAmount
+        : receivedAmount?.toString()) || "0.00"
     : amount || "0.00";
   const isTextLong = displayText.length > 12;
   const shouldShowText = !isTextLong; // Nếu text dài -> chỉ show icon
+
+  // Tính font size động cho "You receive" khi text dài
+  const calculateFontSize = () => {
+    if (!readOnly) return undefined; // Không áp dụng cho input
+    const baseFontSize = 24; // text-2xl = 24px
+    const length = displayText.length;
+
+    // Nếu text ngắn, dùng size mặc định
+    if (length <= 10) return undefined;
+
+    // Scale down font size khi text dài
+    // Công thức: fontSize = baseFontSize * (min(1, maxScale))
+    // maxScale giảm dần khi length tăng
+    const maxScale = Math.max(0.5, 1 - (length - 20) * 0.03); // Giảm 3% mỗi ký tự sau 10
+    const fontSize = Math.max(14, baseFontSize * maxScale); // Min 14px để vẫn đọc được
+
+    return `${fontSize}px`;
+  };
+
+  const dynamicFontSize = calculateFontSize();
 
   // Tính USD value cho "You pay"
   const usdValue =
@@ -99,9 +158,15 @@ export const CoinInput = ({
       <div className="flex items-center justify-between gap-2">
         {readOnly ? (
           <div
-            className={`text-2xl sm:text-3xl font-semibold flex-1 min-w-0 word-break-word ${
-              isDark ? "text-white" : "text-gray-900"
-            }`}
+            className={`font-semibold flex-1 min-w-0 overflow-hidden ${
+              dynamicFontSize ? "" : "text-2xl sm:text-3xl"
+            } ${isDark ? "text-white" : "text-gray-900"}`}
+            style={{
+              ...(dynamicFontSize ? { fontSize: dynamicFontSize } : {}),
+              whiteSpace: "nowrap",
+              transition: "font-size 0.2s ease",
+            }}
+            title={displayText} // Show full value on hover
           >
             {displayText}
           </div>
@@ -111,11 +176,15 @@ export const CoinInput = ({
             type="text"
             value={amount || ""}
             onChange={handleChange}
-            className={`text-2xl sm:text-3xl font-semibold bg-transparent border-none focus:outline-none flex-1 min-w-0 cursor-text ${
+            maxLength={16} // 15 digits + 1 dot = 16 (tối đa 15 chữ số, không tính dấu chấm)
+            className={`text-2xl sm:text-3xl font-semibold bg-transparent border-none focus:outline-none flex-1 min-w-0 cursor-text overflow-hidden ${
               isDark
                 ? "text-white placeholder-white"
                 : "text-gray-900 placeholder-gray-400"
             }`}
+            style={{
+              textOverflow: "ellipsis",
+            }}
           />
         )}
 
@@ -181,8 +250,8 @@ export const CoinInput = ({
                 isDark ? "text-gray-400" : "text-gray-500"
               }`}
             >
-              1 {coin.symbol.toUpperCase()} = {conversionRate}{" "}
-              {receiveCoin.symbol.toUpperCase()}
+              1 {receiveCoin.symbol.toUpperCase()} = {conversionRate}{" "}
+              {coin.symbol.toUpperCase()}
             </span>
           )}
         </div>

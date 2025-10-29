@@ -9,5 +9,3 @@ export { LoadingScreen } from "./LoadingScreen";
 export { SettingsModal } from "./SettingsModal";
 export { TransferModal } from "./TransferModal";
 export { Toast } from "./Toast";
-export { LockButton } from "./LockButton";
-

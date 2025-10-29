@@ -1,23 +1,12 @@
-import { LockButton } from "./LockButton";
-
 interface HeaderProps {
   onSettingsClick: () => void;
-  isLocked: boolean;
-  onToggleLock: () => void;
-  isWarning?: boolean;
   theme?: "dark" | "light";
 }
 
 /**
  * Header component - Hiển thị title và action buttons
  */
-export const Header = ({
-  onSettingsClick,
-  isLocked,
-  onToggleLock,
-  isWarning = false,
-  theme = "dark",
-}: HeaderProps) => {
+export const Header = ({ onSettingsClick, theme = "dark" }: HeaderProps) => {
   const isDark = theme === "dark";
 
   return (
@@ -30,12 +19,6 @@ export const Header = ({
         Fancy Swap
       </h1>
       <div className="flex flex-row items-center gap-2 sm:gap-4">
-        <LockButton
-          isLocked={isLocked}
-          onToggle={onToggleLock}
-          isWarning={isWarning}
-          theme={theme}
-        />
         <button
           onClick={onSettingsClick}
           className={`p-2 rounded-full hover:scale-110 transition-all cursor-pointer ${

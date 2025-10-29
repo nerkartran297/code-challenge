@@ -39,23 +39,11 @@ export const useCoinDropdown = (
   }, []);
 
   // Filter coins dựa trên search term
-  const filteredCoins = coinsToUse
-    .filter(
-      (c) =>
-        c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.symbol.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      // Đưa coin đang được select lên đầu
-      const currentCoin = showList === "pay" ? payCoin : receiveCoin;
-      
-      if (currentCoin) {
-        if (a.symbol === currentCoin.symbol) return -1;
-        if (b.symbol === currentCoin.symbol) return 1;
-      }
-      
-      return 0;
-    });
+  const filteredCoins = coinsToUse.filter(
+    (c) =>
+      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Trigger animation cho pay/receive section
   const triggerAnimation = (type: "pay" | "receive") => {

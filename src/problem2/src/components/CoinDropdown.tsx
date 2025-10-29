@@ -145,8 +145,8 @@ export const CoinDropdown = ({
                   </div>
                 </div>
 
-                <div className="text-right">
-                  {isDisabled && (
+                {isDisabled && (
+                  <div className="text-right">
                     <div
                       className={`text-xs font-medium ${
                         isDark ? "text-red-400" : "text-red-600"
@@ -154,20 +154,8 @@ export const CoinDropdown = ({
                     >
                       Already selected
                     </div>
-                  )}
-                  {!isDisabled && coin.balance > 0 && (
-                    <div
-                      className={`font-semibold text-sm ${
-                        isDark ? "text-white" : "text-gray-900"
-                      }`}
-                    >
-                      {coin.balance.toLocaleString(undefined, {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 4,
-                      })}
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             );
           })}

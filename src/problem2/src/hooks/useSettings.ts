@@ -2,14 +2,12 @@ import { useState, useEffect } from "react";
 
 interface Settings {
   decimalPlaces: number;
-  isLocked: boolean;
   theme: "dark" | "light";
   showUSDComparison: boolean;
 }
 
 const DEFAULT_SETTINGS: Settings = {
-  decimalPlaces: 6,
-  isLocked: true, // Default locked để enforce balance
+  decimalPlaces: 4, // Default 4 decimal places for "You receive"
   theme: "dark",
   showUSDComparison: true, // Show USD comparison by default
 };
@@ -18,7 +16,6 @@ const DEFAULT_SETTINGS: Settings = {
  * Custom hook để quản lý settings
  * - Lưu vào localStorage để persist
  * - Decimal places cho receive amount
- * - Lock state để control balance enforcement
  */
 export const useSettings = () => {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
@@ -29,7 +26,10 @@ export const useSettings = () => {
     const savedSettings = localStorage.getItem("swapSettings");
     if (savedSettings) {
       try {
-        setSettings(JSON.parse(savedSettings));
+        const parsed = JSON.parse(savedSettings);
+        // Migrate old settings: remove isLocked if present
+        const { isLocked, ...migratedSettings } = parsed;
+        setSettings(migratedSettings);
       } catch (error) {
         console.error("Failed to parse settings:", error);
       }
@@ -46,10 +46,6 @@ export const useSettings = () => {
     updateSettings({ ...settings, decimalPlaces: places });
   };
 
-  const toggleLock = () => {
-    updateSettings({ ...settings, isLocked: !settings.isLocked });
-  };
-
   const setTheme = (theme: "dark" | "light") => {
     updateSettings({ ...settings, theme });
   };
@@ -61,7 +57,6 @@ export const useSettings = () => {
   return {
     settings,
     setDecimalPlaces,
-    toggleLock,
     setTheme,
     setShowUSDComparison,
     showModal,
