@@ -54,12 +54,7 @@ function App() {
     dropdownRef,
     filteredCoins,
     closeDropdown,
-  } = useCoinDropdown(
-    coins,
-    allCoins,
-    payCoin || undefined,
-    receiveCoin || undefined
-  );
+  } = useCoinDropdown(coins, allCoins);
 
   // Quản lý settings
   const {

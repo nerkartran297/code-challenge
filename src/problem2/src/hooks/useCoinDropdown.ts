@@ -9,9 +9,7 @@ import type { Coin } from "../api/coinService";
  */
 export const useCoinDropdown = (
   coins: Coin[],
-  allCoins: Coin[] = [],
-  payCoin?: Coin,
-  receiveCoin?: Coin
+  allCoins: Coin[] = []
 ) => {
   const [showList, setShowList] = useState<"pay" | "receive" | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
