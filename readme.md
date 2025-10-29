@@ -74,8 +74,6 @@ var sum_to_n_c = function (n) {
 
 ✅ **Balance Management**
 
-- Lock/Unlock mode for balance enforcement
-- Shows balance for each coin in dropdown
 - Balance validation prevents overspending
 - Refresh balances after successful transfer
 
