@@ -13,15 +13,15 @@ const DEFAULT_SETTINGS: Settings = {
 };
 
 /**
- * Custom hook để quản lý settings
- * - Lưu vào localStorage để persist
- * - Decimal places cho receive amount
- */
+* Custom hook to manage settings
+* - Persist to localStorage
+* - Decimal places for the receive amount
+*/
 export const useSettings = () => {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  // Load settings từ localStorage khi mount
+  // Load settings from localStorage on mount
   useEffect(() => {
     const savedSettings = localStorage.getItem("swapSettings");
     if (savedSettings) {
@@ -36,7 +36,7 @@ export const useSettings = () => {
     }
   }, []);
 
-  // Save settings to localStorage khi thay đổi
+  // Save settings to localStorage when changed
   const updateSettings = (newSettings: Settings) => {
     setSettings(newSettings);
     localStorage.setItem("swapSettings", JSON.stringify(newSettings));

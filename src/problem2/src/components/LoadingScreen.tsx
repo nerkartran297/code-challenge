@@ -3,7 +3,7 @@ interface LoadingScreenProps {
 }
 
 /**
- * LoadingScreen component - Loading spinner đẹp hơn
+ * LoadingScreen component - Improved loading spinner
  */
 export const LoadingScreen = ({ theme = "dark" }: LoadingScreenProps) => {
   const isDark = theme === "dark";

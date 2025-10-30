@@ -3,21 +3,21 @@ import { fetchCoins } from "../api/coinService";
 import type { Coin } from "../api/coinService";
 
 /**
- * Custom hook quản lý logic swap coins
- * - Fetch coins từ API khi component mount
- * - Quản lý selected coins (pay và receive)
- * - Tính toán conversion rate
- */
+* Custom hook managing coin swap logic
+* - Fetch coins from API on component mount
+* - Manage selected coins (pay and receive)
+* - Calculate conversion rate
+*/
 export const useCoinSwap = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
   const [allCoins, setAllCoins] = useState<Coin[]>([]); // All coins from API
   const [loading, setLoading] = useState<boolean>(true);
-  const [isSwapping, setIsSwapping] = useState<boolean>(false); // Loading state cho swap
+  const [isSwapping, setIsSwapping] = useState<boolean>(false); // Loading state for swap
   const [payCoin, setPayCoin] = useState<Coin | null>(null);
   const [receiveCoin, setReceiveCoin] = useState<Coin | null>(null);
   const [amount, setAmount] = useState<string>("");
 
-  // Fetch coins khi component mount
+  // Fetch coins when component mounts
   useEffect(() => {
     const loadCoins = async () => {
       try {
@@ -40,7 +40,7 @@ export const useCoinSwap = () => {
       } catch (error) {
         console.error("Failed to fetch coins:", error);
       } finally {
-        // Đảm bảo loading screen hiển thị ít nhất 2 giây để show animation
+        // Ensure loading screen shows at least 2 seconds to display the animation
         await new Promise((resolve) => setTimeout(resolve, 2000));
         setLoading(false);
       }
@@ -49,16 +49,16 @@ export const useCoinSwap = () => {
     loadCoins();
   }, []);
 
-  // Tính amount sẽ nhận được - Real-time calculation
-  // Không cần useMemo vì phép tính này cực kỳ đơn giản (chỉ 1 phép chia)
-  // Performance gain của useMemo không đáng kể so với overhead của nó
+  // Compute the amount to receive - real-time calculation
+  // No need for useMemo because this calculation is extremely simple (single division)
+  // The performance gain of useMemo is not significant compared to its overhead
   const numAmount = parseFloat(amount) || 0;
   const receivedAmount =
     payCoin && receiveCoin && numAmount > 0
       ? (numAmount * payCoin.valueUSDT) / receiveCoin.valueUSDT
       : 0;
 
-  // Tính conversion rate - Memoized
+  // Compute conversion rate - memoized
   const conversionRate = useMemo(() => {
     if (!payCoin || !receiveCoin) return "0.000000";
     return (payCoin.valueUSDT / receiveCoin.valueUSDT).toFixed(6);
@@ -96,13 +96,13 @@ export const useCoinSwap = () => {
     }
   };
 
-  // Swap coins với loading state 0.3s
+  // Swap coins with 0.3s loading state
   const swapCoins = async () => {
     if (!payCoin || !receiveCoin || isSwapping) return false;
 
     setIsSwapping(true);
     
-    // Delay 0.3s để prevent spam swap
+    // Delay 0.3s to prevent spamming swaps
     await new Promise((resolve) => setTimeout(resolve, 300));
 
     const temp = payCoin;

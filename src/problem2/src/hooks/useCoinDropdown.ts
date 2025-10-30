@@ -2,11 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import type { Coin } from "../api/coinService";
 
 /**
- * Custom hook quản lý dropdown logic
- * - Mở/đóng dropdown
- * - Filter coins theo search term
- * - Auto close khi click outside
- */
+* Custom hook to manage dropdown logic
+* - Open/close dropdown
+* - Filter coins by search term
+* - Auto-close when clicking outside
+*/
 export const useCoinDropdown = (
   coins: Coin[],
   allCoins: Coin[] = []
@@ -20,7 +20,7 @@ export const useCoinDropdown = (
   // Determine which coins to use based on current list type
   const coinsToUse = showList === "pay" ? coins : (allCoins.length > 0 ? allCoins : coins);
 
-  // Auto close dropdown khi click outside
+  // Auto-close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -36,14 +36,14 @@ export const useCoinDropdown = (
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Filter coins dựa trên search term
+  // Filter coins based on search term
   const filteredCoins = coinsToUse.filter(
     (c) =>
       c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.symbol.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Trigger animation cho pay/receive section
+  // Trigger animation for pay/receive section
   const triggerAnimation = (type: "pay" | "receive") => {
     if (type === "pay") {
       setAnimatePay(true);
@@ -54,7 +54,7 @@ export const useCoinDropdown = (
     }
   };
 
-  // Đóng dropdown và reset search
+  // Close dropdown and reset search
   const closeDropdown = () => {
     setShowList(null);
     setSearchTerm("");

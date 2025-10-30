@@ -10,7 +10,7 @@ interface SettingsModalProps {
 }
 
 /**
- * SettingsModal component - Modal để chỉnh settings
+ * SettingsModal component - Modal to adjust settings
  */
 export const SettingsModal = ({
   isOpen,

@@ -1,4 +1,4 @@
-// Export tất cả components để import dễ dàng hơn
+// Export all components for easier imports
 export { Header } from "./Header";
 export { CoinInput } from "./CoinInput";
 export { SwapButton } from "./SwapButton";

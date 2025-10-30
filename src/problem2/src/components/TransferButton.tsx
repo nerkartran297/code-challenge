@@ -4,15 +4,15 @@ interface TransferButtonProps {
 }
 
 /**
- * TransferButton component - Button để execute transfer
+ * TransferButton component - Button to execute transfer
  */
 export const TransferButton = ({
   disabled = false,
   onClick,
 }: TransferButtonProps) => {
-  // Button luôn màu xanh, chỉ thay đổi opacity khi disabled
+  // Button is always green; only opacity changes when disabled
   const buttonClasses = disabled
-    ? "bg-[#50DA63] text-gray-900 cursor-not-allowed opacity-50" // Disabled - màu xanh nhưng mờ
+    ? "bg-[#50DA63] text-gray-900 cursor-not-allowed opacity-50" // Disabled - green but faded
     : "bg-[#50DA63] text-gray-900 hover:bg-[#5eec72] hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(80,218,99,0.5)] cursor-pointer"; // Enabled
 
   return (

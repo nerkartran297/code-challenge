@@ -4,7 +4,7 @@ interface SwapButtonProps {
 }
 
 /**
- * SwapButton component - Button để swap giữa pay và receive coin
+ * SwapButton component - Button to swap between pay and receive coins
  */
 import React from "react";
 

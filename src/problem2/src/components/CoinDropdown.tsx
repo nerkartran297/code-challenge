@@ -14,7 +14,7 @@ interface CoinDropdownProps {
 }
 
 /**
- * CoinDropdown component - Modal để chọn coin
+ * CoinDropdown component - Modal to select coin
  */
 export const CoinDropdown = ({
   showList,

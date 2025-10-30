@@ -8,7 +8,7 @@ interface TransferModalProps {
 }
 
 /**
- * TransferModal component - Modal để nhập OTP và password trước khi transfer
+ * TransferModal component - Modal to enter OTP and password before transfer
  */
 export const TransferModal = ({
   isOpen,
@@ -122,7 +122,7 @@ export const TransferModal = ({
       setIsSubmitting(false);
       setShowError(true);
 
-      // Shake animation và clear inputs
+      // Shake animation and clear inputs
       setTimeout(() => {
         setOtp(["", "", "", "", "", "", ""]);
         setActiveIndex(0);

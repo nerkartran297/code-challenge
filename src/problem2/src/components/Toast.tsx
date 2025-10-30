@@ -6,7 +6,7 @@ interface ToastProps {
 }
 
 /**
- * Toast component - Hiển thị thông báo
+ * Toast component - Displays notifications
  */
 export const Toast = ({
   message,

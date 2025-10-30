@@ -4,7 +4,7 @@ interface HeaderProps {
 }
 
 /**
- * Header component - Hiển thị title và action buttons
+ * Header component - Displays title and action buttons
  */
 export const Header = ({ onSettingsClick, theme = "dark" }: HeaderProps) => {
   const isDark = theme === "dark";

@@ -6,10 +6,10 @@ interface UseBalanceValidationProps {
 }
 
 /**
- * Custom hook để validate balance
- * - Check xem amount có vượt balance không
- * - Return validation state
- */
+* Custom hook to validate balance
+* - Check whether the amount exceeds the balance
+* - Return validation state
+*/
 export const useBalanceValidation = ({
   payCoin,
   amount,
@@ -17,17 +17,17 @@ export const useBalanceValidation = ({
   const numAmount = parseFloat(amount) || 0;
   const balance = payCoin?.balance || 0;
   
-  // Check nếu amount vượt balance
+  // Check if amount exceeds balance
   const exceedsBalance = numAmount > balance;
   
-  // Check nếu amount = 0 hoặc <= 0
+  // Check if amount = 0 or <= 0
   const isZeroOrNegative = numAmount <= 0;
   
   return {
     isZeroOrNegative,
-    // Transfer button sẽ disable khi:
-    // - Amount = 0 hoặc < 0
-    // - Amount vượt balance
+    // Transfer button will be disabled when:
+    // - Amount = 0 or < 0
+    // - Amount exceeds balance
     isTransferDisabled: isZeroOrNegative || exceedsBalance,
   };
 };

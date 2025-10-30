@@ -18,7 +18,7 @@ import { ToastStack } from "./components/ToastStack";
 import { showToast } from "./utils/toast";
 
 /**
- * App Component - Main component cho swap interface
+ * App Component - Main component for the swap interface
  *
  * Architecture:
  * - Custom Hooks: useCoinSwap, useCoinDropdown, useSettings, useBalanceValidation
@@ -26,7 +26,7 @@ import { showToast } from "./utils/toast";
  * - Utils: formatting functions (business logic)
  */
 function App() {
-  // Fetch coins và quản lý swap logic
+  // Fetch coins and manage swap logic
   const {
     coins,
     allCoins,
@@ -44,7 +44,7 @@ function App() {
     refreshCoins,
   } = useCoinSwap();
 
-  // Quản lý dropdown
+  // Manage dropdown
   // Use allCoins for filtering (will be filtered based on showList later)
   const {
     showList,
@@ -56,7 +56,7 @@ function App() {
     closeDropdown,
   } = useCoinDropdown(coins, allCoins);
 
-  // Quản lý settings
+  // Manage settings
   const {
     settings,
     setDecimalPlaces,
@@ -72,7 +72,7 @@ function App() {
     amount,
   });
 
-  // State để control TransferModal
+  // State to control the TransferModal
   const [showTransferModal, setShowTransferModal] = useState(false);
 
   // Update body background based on theme
@@ -82,7 +82,7 @@ function App() {
     document.body.className = `${themeClass} ${bgClass}`;
   }, [settings.theme]);
 
-  // Xử lý khi chọn coin từ dropdown
+  // Handle selecting a coin from the dropdown
   const handleSelectCoin = (coin: Coin) => {
     if (!payCoin || !receiveCoin) return;
 
@@ -95,21 +95,21 @@ function App() {
     closeDropdown();
   };
 
-  // Xử lý swap coins
+  // Handle swapping coins
   const handleSwap = async () => {
     await swapCoins();
   };
 
-  // Xử lý mở transfer modal
+  // Handle opening the transfer modal
   const handleTransferClick = () => {
     if (isZeroOrNegative) {
-      // Nếu amount = 0 -> show toast warning màu xanh
+      // If amount = 0 -> show blue info toast
       showToast("Amount must be positive", "info");
       return;
     }
 
     if (isTransferDisabled) {
-      // Nếu vượt balance -> show toast error
+      // If it exceeds balance -> show error toast
       showToast("Insufficient Balance", "error");
       return;
     }
@@ -117,7 +117,7 @@ function App() {
     setShowTransferModal(true);
   };
 
-  // Xử lý confirm transfer
+  // Handle confirming transfer
   const handleConfirmTransfer = async () => {
     // Here you would normally call your transfer API
     console.log("Transfer confirmed!");
@@ -127,13 +127,13 @@ function App() {
     await refreshCoins();
   };
 
-  // Format received amount với decimal places từ settings
+  // Format received amount with decimal places from settings
   const formattedReceivedAmount = formatReceivedAmount(
     receivedAmount,
     settings.decimalPlaces
   );
 
-  // Loading state với loading screen đẹp hơn
+  // Loading state with improved loading screen
   if (loading || !payCoin || !receiveCoin) {
     return <LoadingScreen theme={settings.theme} />;
   }
@@ -188,7 +188,7 @@ function App() {
           }
         />
 
-        {/* Transfer Button - Disable khi overdraft trong unlock mode */}
+        {/* Transfer Button - Disabled when overdrafting */}
         <TransferButton
           disabled={isTransferDisabled}
           onClick={handleTransferClick}
