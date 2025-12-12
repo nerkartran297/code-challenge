@@ -28,7 +28,7 @@ export const useSettings = () => {
       try {
         const parsed = JSON.parse(savedSettings);
         // Migrate old settings: remove isLocked if present
-        const { isLocked, ...migratedSettings } = parsed;
+        const { ...migratedSettings } = parsed;
         setSettings(migratedSettings);
       } catch (error) {
         console.error("Failed to parse settings:", error);

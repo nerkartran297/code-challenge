@@ -11,6 +11,8 @@ export const useCoinDropdown = (
   coins: Coin[],
   allCoins: Coin[] = []
 ) => {
+
+  //All of this is use for the dropdown logic: hide/show, search, animations
   const [showList, setShowList] = useState<"pay" | "receive" | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [animatePay, setAnimatePay] = useState<boolean>(false);

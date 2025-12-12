@@ -9,10 +9,15 @@ import type { Coin } from "../api/coinService";
 * - Calculate conversion rate
 */
 export const useCoinSwap = () => {
+  //Use for the dropdown coins
   const [coins, setCoins] = useState<Coin[]>([]);
   const [allCoins, setAllCoins] = useState<Coin[]>([]); // All coins from API
+
+  //Use for the loading state and animations
   const [loading, setLoading] = useState<boolean>(true);
   const [isSwapping, setIsSwapping] = useState<boolean>(false); // Loading state for swap
+
+  //Use for the selected coins and the amount to exchange
   const [payCoin, setPayCoin] = useState<Coin | null>(null);
   const [receiveCoin, setReceiveCoin] = useState<Coin | null>(null);
   const [amount, setAmount] = useState<string>("");
